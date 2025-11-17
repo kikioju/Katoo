@@ -1,0 +1,12 @@
+Colors:
+  Primary: #000000ff
+  Accent: #E60346
+  Background: #FFFFFF
+
+Fonts:
+  Main: Lalezar, 8px regular
+  Headings: Impact, 36px regular
+
+Spacing:
+  Section padding: 80px
+  Card radius: 12px
