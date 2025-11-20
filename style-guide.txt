@@ -6,7 +6,3 @@ Colors:
 Fonts:
   Main: Lalezar, 8px regular
   Headings: Impact, 36px regular
-
-Spacing:
-  Section padding: 80px
-  Card radius: 12px

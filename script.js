@@ -1,43 +1,37 @@
-// ==================================================
 // 1. НАСТРОЙКИ И ДАННЫЕ АНИМАЦИИ
-// ==================================================
-
-const MAX_ANGLE = 15;     
-const SPEED_FACTOR = 0.0002; 
-const SPIN_PROBABILITY = 0.00016; 
-const SPIN_DURATION_MS = 500;   
-const SCALE_SPEED = 0.08; 
+const MAX_ANGLE = 15;
+const SPEED_FACTOR = 0.0002;
+const SPIN_PROBABILITY = 0.00016;
+const SPIN_DURATION_MS = 500;
+const SCALE_SPEED = 0.08;
 
 const images = document.querySelectorAll('.img1, .img2, .img3, .img4');
 
 const rotationData = Array.from(images).map(img => {
     return {
         element: img,
-        timeOffset: Math.random() * 2 * Math.PI, 
+        timeOffset: Math.random() * 2 * Math.PI,
         initialRotation: parseFloat(img.dataset.initialRotation) || 0,
         isSpinning: false,
         spinStartTime: 0,
-        targetScale: 1.0, 
+        targetScale: 1.0,
         currentScale: 1.0
     };
 });
 
 function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
-// ==================================================
 // 2. ЦИКЛ АНИМАЦИИ (ВРАЩЕНИЕ И МАСШТАБ)
-// ==================================================
-
 function animateRotation(timestamp) {
     rotationData.forEach(item => {
         const element = item.element;
-        
-        // --- Маятник ---
+
+        // Маятник
         const time = timestamp * SPEED_FACTOR + item.timeOffset;
         const deltaAngle = MAX_ANGLE * Math.sin(time);
         let finalAngle = item.initialRotation + deltaAngle;
 
-        // --- Спин ---
+        // Спин
         if (item.isSpinning) {
             const elapsed = timestamp - item.spinStartTime;
             const progress = Math.min(1, elapsed / SPIN_DURATION_MS);
@@ -45,7 +39,7 @@ function animateRotation(timestamp) {
             finalAngle = (item.initialRotation + deltaAngle) + (360 * easedProgress);
             if (progress >= 1) {
                 item.isSpinning = false;
-                item.initialRotation += 360; 
+                item.initialRotation += 360;
             }
         } else {
             if (Math.random() < SPIN_PROBABILITY) {
@@ -53,8 +47,8 @@ function animateRotation(timestamp) {
                 item.spinStartTime = timestamp;
             }
         }
-        
-        // --- Масштабирование ---
+
+        // Масштабирование
         item.currentScale += (item.targetScale - item.currentScale) * SCALE_SPEED;
         element.style.transform = `rotate(${finalAngle}deg) scale(${item.currentScale})`;
     });
@@ -62,20 +56,9 @@ function animateRotation(timestamp) {
 }
 requestAnimationFrame(animateRotation);
 
-
-// ==================================================
-// 3. ЛОГИКА ХОВЕРОВ (ТЕКСТ И ВОЛНА)
-// ==================================================
-
+// 3. ЛОГИКА ХОВЕРОВ
 const spanDamirKamsh = document.querySelector('.one'); 
 const spanDamik = document.querySelector('.two');      
-
-const allImages = {
-    img1: rotationData.find(item => item.element.classList.contains('img1')),
-    img2: rotationData.find(item => item.element.classList.contains('img2')),
-    img3: rotationData.find(item => item.element.classList.contains('img3')),
-    img4: rotationData.find(item => item.element.classList.contains('img4'))
-};
 
 function resetImageStates() {
     rotationData.forEach(item => {
@@ -86,7 +69,7 @@ function resetImageStates() {
 
 function applyHoverEffects(element, highlightMap) {
     rotationData.forEach(item => {
-        const imgClass = item.element.classList[0]; 
+        const imgClass = item.element.classList[0];
         const action = highlightMap[imgClass];
         if (action === 'highlighted') {
             item.targetScale = 1.1;
@@ -121,18 +104,12 @@ if (spanDamik) {
     });
 }
 
-
-// ==================================================
-// 4. НАВИГАЦИЯ И ПЕРЕХОДЫ (FIXED)
-// ==================================================
-
+// 4. НАВИГАЦИЯ И ПЕРЕХОДЫ
 const fadeDuration = 400;
 const allLinks = document.querySelectorAll('a');
 
-// --- А. Обработка кликов ---
 allLinks.forEach(link => {
     link.addEventListener('click', function(event) {
-        
         if (this.target === '_blank') return;
 
         const href = this.getAttribute('href');
@@ -140,26 +117,14 @@ allLinks.forEach(link => {
 
         if (isInternalLink) {
             event.preventDefault();
-            
-            // Добавляем класс исчезновения
             document.body.classList.add('page-exit');
 
             setTimeout(() => {
-                // ЛОГИКА КУБИКА
                 if (this.classList.contains('cube1')) {
-                    const referrer = document.referrer;
-                    const currentDomain = window.location.hostname;
-                    
-                    // Если пришли с нашего сайта -> НАЗАД
-                    if (referrer.includes(currentDomain) && referrer !== "") {
-                        history.back();
-                    } else {
-                        // Иначе -> ДОМОЙ
-                        window.location.href = href;
-                    }
-                } 
-                // ЛОГИКА ОБЫЧНОЙ ССЫЛКИ
-                else {
+                    const homeTarget = (href && /home/i.test(href)) ? href : '/home.html';
+                    const targetUrl = homeTarget.startsWith('/') ? window.location.origin + homeTarget : homeTarget;
+                    window.location.href = targetUrl;
+                } else {
                     window.location.href = href;
                 }
             }, fadeDuration);
@@ -167,12 +132,8 @@ allLinks.forEach(link => {
     });
 });
 
-// --- Б. FIX ДЛЯ КЭША (BFCache) ---
-// Это исправляет проблему при возвращении "Назад" на Index
 window.addEventListener('pageshow', function(event) {
-    // Если страница загружена из кэша (нажали "Назад")
     if (event.persisted) {
-        // Принудительно убираем класс исчезновения, чтобы страница появилась
         document.body.classList.remove('page-exit');
     }
 });
