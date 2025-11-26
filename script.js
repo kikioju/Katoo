@@ -5,7 +5,7 @@ const SPIN_PROBABILITY = 0.00016;
 const SPIN_DURATION_MS = 500;
 const SCALE_SPEED = 0.08;
 
-const images = document.querySelectorAll('.img1, .img2, .img3, .img4');
+const images = document.querySelectorAll('.img1, .img2, .img3, .img4, .center-img');
 
 const rotationData = Array.from(images).map(img => {
     return {
@@ -50,6 +50,8 @@ function animateRotation(timestamp) {
 
         // Масштабирование
         item.currentScale += (item.targetScale - item.currentScale) * SCALE_SPEED;
+        
+        // 🔥 ПРОСТО ВРАЩЕНИЕ И СКЕЙЛ. НИКАКИХ TRANSLATE!
         element.style.transform = `rotate(${finalAngle}deg) scale(${item.currentScale})`;
     });
     requestAnimationFrame(animateRotation);
@@ -137,3 +139,4 @@ window.addEventListener('pageshow', function(event) {
         document.body.classList.remove('page-exit');
     }
 });
+

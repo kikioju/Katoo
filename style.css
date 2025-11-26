@@ -1,41 +1,41 @@
+/* =========================================
+   1. БАЗОВЫЕ НАСТРОЙКИ (GLOBAL)
+   ========================================= */
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden;
+    padding: 0;
+    /* Важно: border-box помогает с размерами */
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
     color: #ffffff;
-    image-rendering: auto;
-}
-
-body {
     background-color: black;
+    /* Скрываем горизонтальный скролл глобально */
+    overflow-x: hidden; 
 }
 
-/* page modifiers */
-body.home {
-    background: black;
+/* Сброс для всех элементов, чтобы паддинги не ломали ширину */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
-/* layout */
-.maintext1 {
-    position: relative;
-    display: flex;
-    height: 95vh;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-
-/* TRANSITION SETTINGS */
+/* Анимации появления */
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 body::after {
@@ -56,104 +56,164 @@ body.page-exit::after {
 }
 
 @keyframes curtainReveal {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes curtainCover {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.image {
+/* =========================================
+   2. ДЕКОРАЦИИ И ФОН (DESKTOP)
+   ========================================= */
+
+/* Кнопка "Made with love" */
+.made {
     position: absolute;
+    top: clamp(10px, 6vw, 50px);
+    left: clamp(10px, 2vw, 50px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    font-family: 'Impact';
+    font-size: clamp(10px, 0.9vw, 22px);
+    gap: 5px;
+}
+.love {
+    width: 2vw;
+    height: 2.5vh;
+}
+
+/* Кнопка "Назад" (Кубик) */
+.back {
+    position: absolute;
+    top: 6vh;
+    right: 2vw;
+    z-index: 1000;
+    display: flex;
+    gap: 1.3vw;
+    align-items: center;
+}
+
+/* Иконки SVG (защита от гигантизма) */
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.cm,
+.cm-def,
+.cm-hover {
+    width: 2.3em;
+    height: 2.3em;
+}
+
+.cube1 {
+    position: relative;
+    width: 2.3em;
+    height: 2.3em;
+    color: #fff;
+}
+
+.cube1 svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cube1 .cm-hover {
+    opacity: 0;
+}
+
+.cube1:hover .cm-def {
+    opacity: 0;
+}
+
+.cube1:hover .cm-hover {
+    opacity: 1;
+}
+
+.moon1 {
+    transform: scaleX(-1);
+}
+
+/* Фоновые картинки */
+.image {
+    position: fixed; /* Фикс, чтобы не дергались при скролле */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    pointer-events: none;
 }
 
 .image img {
     opacity: 0.5;
-    height: auto;
-    width: clamp(300px, 60vw, 600px);
-    transition: opacity 0.3s ease-in-out; 
+    position: absolute;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Координаты для десктопа (твои оригинальные) */
+.img1 {
+    top: -9vh;
+    left: 71vw;
+    width: clamp(200px, 40vw, 600px);
+}
+
+.img2 {
+    top: 45vh;
+    left: 2vw;
+    width: clamp(200px, 40vw, 600px);
+}
+
+.img3 {
+    top: 51vh;
+    left: 60vw;
+    width: clamp(200px, 40vw, 600px);
+}
+
+.img4 {
+    top: -15vh;
+    right: 60vw;
+    width: clamp(200px, 40vw, 600px);
 }
 
 .hero-section {
     position: relative;
-    height: 100%;
     width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
 .hero-section::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    inset: 0;
     background-image: url('red1.jpg');
-    background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    opacity: 0.5; 
+    opacity: 0.5;
     z-index: -1;
 }
 
+/* Фотография (Me) - Десктоп позиция */
 .me {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.about-flow-container, .back {
-    position: relative;
-    z-index: 1; 
-}
-
-.about-flow-container {
-    position: absolute;
-    top: 25vh;
-    left: 20vh;
-    z-index: 100;
-    max-width: 1000px;  
-}
-
-.about-head {
-    font-family: 'Impact';
-    color: #ffffff;
-    z-index: 10;
-    margin: 0 0 10px 0;
-    font-size: clamp(24px, 5vw, 48px);
-}
-
-.about-m {
-    position: relative;
-    color: #fff;
-    font-family: 'Open Sans';
-    font-size: clamp(14px, 1.5vw, 20px);
-    max-width: 900px;
-    line-height: 1.5;
-    padding-right: 5vw;
-    margin: 0 0 20px 0;
-}
-
-.about-line {
-    width: 55vw;
-    max-width: 3000px;
-    height: 4px;
-    background-color: #ffffff;
-    margin: 0 0 20px 0;
-    margin-left: 0;
-}
-
-.special {
-    width: 84vw;
-    max-width: 4000px;;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
 }
 
 .me img {
@@ -163,7 +223,7 @@ body.page-exit::after {
     border-radius: 0 0 0 clamp(20px, 2vw, 40px);
 }
 
-/* Circle animation */
+/* Виджет музыки */
 .music-widget {
     position: fixed;
     top: 5vh;
@@ -173,7 +233,6 @@ body.page-exit::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none;
     z-index: 100;
     cursor: pointer;
 }
@@ -200,63 +259,279 @@ body.page-exit::after {
     animation: spinText 15s linear infinite;
     fill: #ffffff;
     font-family: 'Open Sans';
-    text-transform: lowercase;
-    letter-spacing: 1px;
     z-index: 2;
 }
 
 @keyframes spinText {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .music-widget:hover .music-text {
-    animation-play-state: paused; 
+    animation-play-state: paused;
     fill: #e60346;
-    transition: fill 0.4s ease;
 }
 
+/* =========================================
+   3. КОНТЕНТ БЛОКИ (DESKTOP LAYOUT)
+   ========================================= */
+
+/* Главный текст (Home) */
+.maintext1 {
+    position: relative;
+    display: flex;
+    height: 95vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.hey {
+    color: #ffffff;
+    font-size: clamp(24px, 5vw, 48px);
+    line-height: 1.3;
+    font-family: 'Impact';
+    z-index: 1;
+}
+
+/* Эффект волны под именем */
+.one,
+.two {
+    color: #e60346;
+    position: relative;
+}
+
+.one:after,
+.two:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 4'%3E%3Cpath fill='none' stroke='%23e60346' stroke-width='1.5' d='M-1,2 Q1.5,0 4,2 T9,2 T11.5,0 14,2'/%3E%3C/svg%3E");
+    background-size: 40px 20px;
+    background-repeat: repeat-x;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: left;
+}
+
+.one:hover:after,
+.two:hover:after {
+    transform: scaleX(1);
+}
+
+.student {
+    color: #ffffff;
+    font-family: 'Open Sans';
+    font-size: 140%;
+    margin-top: -1rem;
+    z-index: 1;
+}
+
+/* Кнопки меню (Home) */
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: -1rem;
+    gap: 1vw;
+    z-index: 1;
+}
+
+.link,
+.links2 {
+    color: #fff;
+    white-space: nowrap;
+    margin: 1.4vh;
+    position: relative;
+}
+
+.homeinst .link, .homeinst .links2 {
+    white-space: nowrap;
+    margin: 0vh 1px;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    margin-right: 0.3em;
+}
+
+.underline-anim::after, .link:after, .links2:after {
+    content: '';
+    position: absolute;
+    bottom: -0.4vh;
+    left: 0;
+    width: 100%;
+    height: 0.3vh;
+    background-color: #e60346;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: left;
+}
+
+.link:hover:after,
+.links2:hover:after,
+.underline-anim:hover::after {
+    transform: scaleX(1);
+}
+
+.icon-text-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Навигация (Home - список ссылок справа) */
+#maintext2 {
+    position: relative;
+    top: 30vh;
+    left: 12vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2vh;
+}
+
+#maintext2 .nav-link {
+    position: relative;
+    display: inline-block; /* ширина = текст */
+    font-family: 'Impact';
+    font-size: clamp(24px, 3vw, 100px);
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+    z-index: 1;
+}
+
+#maintext2 .nav-link::before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: -8px;
+    height: calc(100% + 16px);
+    width: calc(100% + 24px); 
+    border-radius: 24px;
+    z-index: -1;
+    background-color: #e60346;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+#maintext2 .nav-link:hover::before {
+    transform: scaleX(1);
+}
+
+.iconinst {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    margin-right: 0.3em;
+}
+
+/* HOME IMG */
+.home-page .center-image-container {
+  position: fixed;    
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;     
+  width: auto;
+  z-index: 100;      
+}
+
+.center-img {
+  max-width: 90%; 
+  max-height: 80vh; 
+  height: auto;
+  width: auto;
+  will-change: transform;   
+}
+
+/* Instagram (Home) */
+.homeinst {
+    position: absolute;
+    top: 37.4vh;
+    
+    display: flex;
+    gap: 1vw;
+    z-index: 10;
+}
+
+/* About Page Content */
+.about-flow-container {
+    position: absolute;
+    top: 25vh;
+    left: 20vh;
+    z-index: 100;
+    max-width: 1000px;
+}
+
+.about-head {
+    font-family: 'Impact';
+    font-size: clamp(24px, 5vw, 48px);
+    margin-bottom: 10px;
+}
+
+.about-m {
+    font-family: 'Open Sans';
+    font-size: clamp(14px, 1.5vw, 20px);
+    max-width: 900px;
+    line-height: 1.5;
+}
+
+.about-line {
+    width: 55vw;
+    height: 4px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+/* Contact */
 .contact-row {
     display: flex;
-    align-items: center; 
-    gap: 20px;           
-    flex-wrap: wrap;     
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
 .mail {
-font-family: 'lalezar';
+    font-family: 'lalezar';
     font-size: clamp(20px, 4vw, 36px);
-    color: #ffffff;
-    margin: 0; 
-    line-height: 1;
+    margin: 0;
 }
 
-.email-text {
-    font-family: 'Open Sans', sans-serif;
-    font-size: clamp(16px, 1.5vw, 20px); 
-    color: #ffffff;
-    text-decoration: none; 
-    opacity: 0.9;
-    transition: color 0.3s ease;
-}
-
-/* WORK */
+/* Work Page */
 .work-wrapper {
-    position: relative; /* Это "холст", внутри которого мы двигаем элементы */
+    position: relative;
     width: 100%;
-    height: 100vh;      /* Высота экрана */
-    overflow: hidden;   /* Чтобы ничего не вылезло за края */
+    height: 100vh;
+    overflow: hidden;
     z-index: 10;
     left: 65vw;
-    top: 18.5vh;   
+    top: 18.5vh; /* Десктопная позиция */
 }
 
 .work-preview {
     background-color: #c4c4c4;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .work-menu {
@@ -267,8 +542,6 @@ font-family: 'lalezar';
 .work-header {
     font-family: 'Impact';
     font-size: clamp(32px, 4vw, 60px);
-    color: #ffffff;
-    margin: 0 0 10px 0;
     letter-spacing: 1px;
 }
 
@@ -297,616 +570,213 @@ font-family: 'lalezar';
     font-style: italic;
 }
 
-/* Состояние ссылки при наведении мыши */
-.work-link:hover {
-    color: #e60346;      /* Твой фирменный красный цвет */
-    padding-left: 15px;  /* Сдвиг текста вправо */
-}
-
-/* Стиль для активного пункта (KITOO), чтобы он был без курсива */
-.work-link.active {
-    font-style: normal;
-}
-
-/* Анимация активного пункта при наведении */
+.work-link:hover,
 .work-link.active:hover {
     color: #e60346;
     padding-left: 15px;
 }
 
-/* Стиль для неактивных пунктов (COMING SOON) */
+.work-link.active {
+    font-style: normal;
+}
+
 .work-link.disabled {
     opacity: 0.5;
     cursor: default;
 }
-/* Неактивные пункты не должны сдвигаться */
-.work-link.disabled:hover {
-    padding-left: 0;
-    color: #ffffff;
-}
 
+/* =================================================================
+   🔥 АДАПТИВ (ТВОЯ ЗОНА КОНТРОЛЯ)
+   Здесь мы превращаем жесткий сайт в гибкий
+   ================================================================= */
 
-.highlighted {
-    opacity: 1 !important;
-    filter: brightness(1.2);
-}
-
-.dimmed {
-    opacity: 0.2 !important;
-}
-
-.img1 {
-    position: absolute;
-    top: -7vh;
-    left: 71vw;
-    width: clamp(200px, 40vw, 400px);
-}
-
-.img2 {
-    position: absolute;
-    top: 45vh;
-    left: 2vw;
-}
-
-.img3 {
-    position: absolute;
-    top: 51vh;
-    left: 58vw;
-}
-
-.img4 {
-    position: absolute;
-    top: -20vh;
-    right: 60vw;
-}
-
-.made {
-    display: flex;
-    top: clamp(10px, 6vw, 50px);
-    left: clamp(10px, 2vw, 50px);
-    position: absolute;
-    font-family: 'Impact';
-    font-size: clamp(10px, 0.9vw, 22px);
-}
-
-.love {
-    width: 2vw;
-    height: 2.5vh;
-}
-
-/* Cube and Moon */
-.back {
-    display: flex;
-    position: absolute;
-    top: 6vh;
-    right: 2vw;
-    z-index: 1000;
-    gap: 1.3vw;
-    align-items: center;
-}
-
-.cube1 {
-    position: relative;
-    text-decoration: none;
-    color: #fff;
-    width: 2.3em;
-    height: 2.3em;
-}
-
-.cube1 svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 0.3s ease;
-}
-
-.moon1 svg, .cube1 svg {
-    vertical-align: middle;
-    width: 2.3em;
-    height: 2.3em;
-}
-
-.cube1 .cm-hover {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.cube1:hover .cm-def {
-    opacity: 0;
-}
-
-.cube1:hover .cm-hover {
-    opacity: 1;
-}
-
-.moon1 {
-    transform: scaleX(-1);
-}
-
-.cm {
-    stroke-width: 1.5;
-}
-
-/* mainText 1 */
-.hey {
-    color: #ffffff;
-    text-align: center;
-    font-size: clamp(24px, 5vw, 48px);
-    line-height: 1.3;
-    font-family: 'Impact';
-    letter-spacing: 0px;
-    margin: 0;
-    z-index: 1;
-}
-
-.one, .two {
-    color: #e60346;
-    position: relative;
-}
-
-.one:after, .two:after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 100%;
-    height: 28px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 4'%3E%3Cpath fill='none' stroke='%23e60346' stroke-width='1.5' d='M-1,2 Q1.5,0 4,2 T9,2 T11.5,0 14,2'/%3E%3C/svg%3E");
-    background-size: 40px 20px;
-    background-repeat: repeat-x;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-in-out;
-    transform-origin: left;
-}
-
-@keyframes scrollWave {
-    from { background-position-x: 0; }
-    to { background-position-x: 40px; }
-}
-
-.wave-animate-active:after {
-    animation: scrollWave 1s linear infinite;
-}
-
-.one:hover:after, .two:hover:after {
-    transform: scaleX(1);
-}
-
-.student {
-    color: #ffffff;
-    font-family: 'Open Sans';
-    font-size: 140%;
-    margin: 0;
-    z-index: 1;
-    margin-top: 2%;
-}
-
-.row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    margin: 0 auto;
-    gap: 1vw;
-    z-index: 1;
-}
-
-.link, .links2 {
-    color: #fff;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin: 1.4vh;
-    padding: 0;
-    position: relative;
-}
-
-/* unified underline */
-.underline-anim, .link, .links2 {
-    position: relative;
-}
-
-.underline-anim::after,
-.link:after,
-.links2:after {
-    content: '';
-    position: absolute;
-    bottom: -0.4vh;
-    left: 0;
-    width: 100%;
-    height: 0.3vh;
-    background-color: #e60346;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-in-out;
-    transform-origin: left;
-}
-
-.link:hover:after, .links2:hover:after, .underline-anim:hover::after {
-    transform: scaleX(1);
-}
-
-.icon {
-    width: 1em;
-    height: 1em;
-    stroke-width: 1.5;
-}
-
-#maintext2 {
-    position: relative;
-    top: 30vh;
-    left: 12vw;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 2vh;
-}
-
-#maintext2 .nav-link {
-    position: relative;
-    display: inline-block;
-    font-family: 'Impact';
-    font-weight: 400;
-    letter-spacing: 1px;
-    font-size: clamp(24px, 3vw, 100px);
-    text-transform: uppercase;
-    color: #ffffff;
-    text-decoration: none;
-    white-space: nowrap;
-    padding: 0;
-    transition: color 0.3s;
-}
-
-#maintext2 .nav-link::before {
-    content: "";
-    position: absolute;
-    left: -12px;
-    top: -8px;
-    height: calc(100% + 16px);
-    width: calc(100% + 24px);
-    border-radius: 24px;
-    z-index: -1;
-    background-color: #e60346;
-    transform: scaleX(0);
-    pointer-events: none;
-    transform-origin: center;
-    transition: transform 0.3s ease-in-out;
-}
-
-#maintext2 .nav-link:hover::before {
-    transform: scaleX(1);
-}
-
-#maintext2 .nav-link:hover {
-    color: #ffffff;
-}
-
-/* INSTAGRAM LINK */
-.homeinst {
-    position: absolute;
-    top: 37.4vh;
-    left: 0vw;
-    gap: 1vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    z-index: 10;
-}
-
-.homeinst p {
-    margin: 0;
-    color: #fff;
-    font-family: 'Open Sans';
-    text-transform: lowercase;
-}
-
-.homeinst a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.iconinst {
-    width: 1em;
-    height: 1em;
-    stroke-width: 1.5;
-}
-
-/* GLOBAL ICON SETTINGS */
-.icon-text-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    color: #fff;
-    text-decoration: none;
-}
-
-.icon-text-group p, .icon-text-group a {
-    font-size: clamp(14px, 1.5vw, 20px);
-    color: inherit;
-    margin: 0;
-    font-family: 'Open Sans';
-    text-transform: lowercase;
-}
-
-.underline-anim {
-    cursor: pointer;
-    text-decoration: none;
-    width: fit-content;
-}
-
-.icon-text-group:visited {
-    color: #ffffff;
-}
-
-/* The only one in HOME */
-.center-image-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;           
-    justify-content: center; 
-    align-items: center;
-    z-index: -1000;              
-    pointer-events: none;
-}
-
-.center-image-container .img1 {
-    position: relative !important; 
-    top: auto !important;         
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: clamp(1000px, 90vw, 2200px) !important; 
-    height: auto !important;
-    opacity: 1 !important;
-    transform: none; 
-}
-
-body.home {
-    background-image: none !important;
-    background-color: #000;
-}
-
-
-/* Responsive */
-@media (min-width: 1025px) and (max-width: 1920px) {
-    .made {
-        font-size: clamp(10px, 1.2vw, 16px);
-    }
-
-    .back {
-        gap: 1.5vw;
-    }
-
-    #maintext2 {
-        top: 25vh;
-        left: 10vw;
-    }
-
-    .homeinst {
-        top: 35vh;
-    }
-}
-
+/* --- ПЛАНШЕТЫ И НОУТБУКИ (меньше 1024px) --- */
 @media (max-width: 1024px) {
-    .maintext1 {
-        height: 90vh;
+    /* 1. Сбрасываем жесткие координаты у главных блоков */
+    .about-flow-container,
+    .work-wrapper,
+    #maintext2,
+    .homeinst,
+    .me {
+        position: relative !important; /* Возвращаем в поток */
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        margin: 0 auto; /* Центрируем */
+        width: 100% !important;
+        max-width: 90%; /* Чтобы не прилипало к краям */
     }
 
-    .hey {
-        font-size: clamp(20px, 4vw, 36px);
-    }
-
-    .student {
-        font-size: 120%;
-    }
-
-    #maintext2 {
-        top: 8vh;
-        left: 5vw;
-        gap: 1.5vh;
-    }
-
-    #maintext2 .nav-link {
-        font-size: clamp(18px, 3.5vw, 48px);
-    }
-
-    .homeinst {
-        top: 30vh;
-        gap: 2vw;
-    }
-
-    .made {
-        top: 3vh;
-        left: 3vw;
-        font-size: clamp(10px, 1vw, 14px);
-    }
-
-    .back {
-        top: 3vh;
-        right: 3vw;
-        gap: 2vw;
-    }
-
-    .cm, .cm-def, .cm-hover {
-        width: 2em;
-        height: 2em;
-    }
-
-    .love {
-        width: 1.5vw;
-        height: 2vh;
-    }
-
-    .one:after,
-    .two:after {
-        bottom: -15px;
-        height: 20px;
-    }
-
-    .wrap {
-        gap: 2vw;
-    }
-
-    .link, .links2 {
-        margin: 1vh;
-    }
-
-    .image img {
-        width: clamp(200px, 50vw, 400px);
-    }
-
-    .img1 { top: -5vh; left: 65vw; width: clamp(150px, 30vw, 300px); }
-    .img2 { top: 40vh; left: 1vw; }
-    .img3 { top: 50vh; left: 60vw; }
-    .img4 { top: -15vh; left: 10vw; }
-}
-
-@media (max-width: 767px) {
-    html, body {
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .maintext1 {
+    /* 2. Разрешаем прокрутку вниз */
+    html,
+    body {
         height: auto;
-        min-height: 100vh;
-        padding: 20px 0;
+        min-height: 100%;
+        overflow-y: auto; /* Включаем скролл */
     }
 
-    .hey {
-        font-size: clamp(18px, 5vw, 28px);
+    /* 3. Адаптация WORK */
+    .work-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 0;
+        background: black;
+    }
+
+    .work-preview {
+        display: none; /* Скрываем картинку, оставляем меню */
+    }
+
+    /* 4. Адаптация ABOUT */
+    .about-flow-container {
+        padding-top: 80px; /* Отступ от шапки */
+    }
+
+    .about-line {
+        width: 100%;
+    }
+
+    /* 5. Адаптация ГЛАВНОЙ НАВИГАЦИИ */
+    #maintext2 {
+        align-items: center;
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    /* 6. Адаптация ФОТО */
+    .me {
+        order: -1; /* Поднимаем фото наверх */
+        display: flex;
+        justify-content: center;
         margin-top: 20px;
     }
 
-    .student {
-        font-size: 100%;
-        margin-top: 10px;
+    .me img {
+        width: 80%; /* Размер фото на планшете */
+        height: auto;
+        border-radius: 20px;
     }
+}
 
+/* --- МОБИЛЬНЫЕ ТЕЛЕФОНЫ (меньше 768px) --- */
+@media (max-width: 767px) {
+    /* ТУТ ТЫ МОЖЕШЬ МЕНЯТЬ ЦИФРЫ ПОД СЕБЯ */
+
+    /* Уменьшаем отступы по краям */
+    .maintext1,
+    .work-wrapper,
+    .about-flow-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
     #maintext2 {
-        position: relative;
-        top: auto;
-        left: auto;
-        margin-top: 30px;
-        padding: 0 20px;
-        gap: 1vh;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding-top: 35vh;
     }
-
-    #maintext2 .nav-link {
-        font-size: clamp(16px, 4vw, 24px);
-    }
-
+    /* Контакты */
     .homeinst {
         position: relative;
         top: auto;
         left: auto;
-        margin: 20px 0;
-        justify-content: flex-start;
-        gap: 3vw;
+        flex-direction: column;
+        align-items: flex-start;    
+        margin: 0;
     }
 
+    .homeinst a {
+        display: inline-flex;
+        align-items: center; 
+        text-align: left;
+    }
+
+    .center-img {
+        margin-left: 40px;
+    }
+    
+    /* Декор по углам */
     .made {
-        top: 2vh;
-        left: 2vw;
-        font-size: 12px;
+        top: 15px;
+        left: 15px;
     }
 
     .back {
-        top: 2vh;
-        right: 2vw;
-        gap: 1.5vw;
+        top: 15px;
+        right: 15px;
     }
 
-    .cm, .cm-def, .cm-hover {
-        width: 1.8em;
-        height: 1.8em;
+    /* Шрифты (Корректируй тут!) */
+    .hey {
+        font-size: 32px;
     }
 
-    .love {
-        width: 3vw;
-        height: 3vh;
+    .student {
+        font-size: 16px;
+        margin-top: 1px;
     }
 
-    .one:after,
-    .two:after {
-        bottom: -10px;
-        height: 12px;
-        background-size: 25px 12px;
+    .work-link {
+        font-size: 36px;
     }
 
+    .about-m {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    /* Навигация (Home) в столбик */
     .wrap {
         flex-direction: column;
-        gap: 1.5vh;
-        width: 100%;
+        gap: 0px;
     }
 
-    .link, .links2 {
-        margin: 0.8vh 0;
-        width: 100%;
-    }
-
-    .image {
-        display: none;
-    }
-
-    .row {
-        padding: 0 20px;
-    }
-
-    .icon-text-group p, .icon-text-group a {
-        font-size: clamp(12px, 2vw, 16px);
-    }
-
-    .me img {
-        width: clamp(150px, 60vw, 300px);
-        height: auto;
-    }
-
-    .me {
-        position: absolute;
-        top: 20vh;
-        right: auto;
-        left: 50%;
+    /* Скрываем сложные декорации фона на телефоне */
+    .image .img1, 
+    .image .img4 { 
+        display: block;
+        position: absolute; 
+        
+        /* 🔥 НУЛЕВЫЕ ПАРАМЕТРЫ: Убираем ВСЕ, что может сдвинуть вправо */
+        right: auto !important; /* Отменяем любые правые привязки */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        
+        /* 1. ГАРАНТИЯ ЦЕНТРИРОВАНИЯ */
+        left: 50%; 
         transform: translateX(-50%); 
-        z-index: 0;
+        
+        /* 2. Размер и внешний вид (без изменений) */
+        width: 180px; 
+        max-width: 50vw; 
+        height: auto;
+        opacity: 0.6;
     }
 
-    .music-widget {
-        width: 100px;
-        height: 100px;
-        top: 2vh;
-        left: auto;  
-        right: 5vw;  
-    }
-    
-    .music-text text {
-        font-size: 12px;
+    /* Координаты для ВЕРХНЕЙ картинки */
+    .image .img1 {
+        top: 5%; 
+        bottom: auto;
     }
 
-
-    .about-flow-container {
-        position: relative;
+    /* Координаты для НИЖНЕЙ картинки */
+    .image .img4 {
         top: auto;
+        bottom: 5%; 
+    }
+    /* Виджет музыки вниз */
+    .music-widget {
+        position: fixed;
+        top: auto;
+        bottom: 20px;
         left: auto;
-        margin-top: 100px;
-        padding: 0 20px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .about-m {
-        padding-right: 0;
-    }
-    
-    .about-line {
-        width: 100%;
+        right: 20px;
+        width: 80px;
+        height: 80px;
     }
 }
